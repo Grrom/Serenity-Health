@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.serenityhealth.R;
 import com.example.serenityhealth.adapters.ConsultationAdapter;
+import com.example.serenityhealth.adapters.HistoryAdapter;
 import com.example.serenityhealth.databinding.FragmentHistoryBinding;
 import com.example.serenityhealth.models.ConsultationModel;
 
@@ -35,7 +36,7 @@ public class HistoryFragment extends Fragment {
 
         setupConsultations();
 
-        ConsultationAdapter adapter = new ConsultationAdapter(getContext(), consultations);
+        HistoryAdapter adapter = new HistoryAdapter(getContext(), consultations);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

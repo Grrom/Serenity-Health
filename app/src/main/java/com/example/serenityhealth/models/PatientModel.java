@@ -1,6 +1,8 @@
 package com.example.serenityhealth.models;
 
-public class PatientModel {
+import java.io.Serializable;
+
+public class PatientModel implements Serializable {
     int image;
     String firstName;
     String lastName;

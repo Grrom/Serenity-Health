@@ -43,7 +43,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         holder.proceedButton.setText("View");
         holder.proceedButton.setOnClickListener(view -> {
-            context.startActivity(new Intent(context, ConsultationActivity.class));
+            Intent intent = new Intent(context, ConsultationActivity.class);
+            intent.putExtra("isHistory", true);
+            context.startActivity(intent);
         });
     }
 
