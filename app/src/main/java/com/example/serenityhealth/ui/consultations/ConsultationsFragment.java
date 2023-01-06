@@ -54,7 +54,9 @@ public class ConsultationsFragment extends Fragment {
     }
 
     private void setupConsultations() {
-        consultations.add(new ConsultationModel(R.drawable.serenity, 1, new Date(), new Time(10)));
+        for (int i = 0; i < 12; i++) {
+            consultations.add(new ConsultationModel(R.drawable.serenity, 1, new Date(), new Time(10)));
+        }
     }
 
     @Override
