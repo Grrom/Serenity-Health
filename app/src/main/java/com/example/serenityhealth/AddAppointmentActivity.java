@@ -1,19 +1,15 @@
 package com.example.serenityhealth;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 
-public class ConsultationActivity extends AppCompatActivity {
+public class AddAppointmentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consultation);
-
+        setContentView(R.layout.activity_add_appointment);
     }
 
     @Override

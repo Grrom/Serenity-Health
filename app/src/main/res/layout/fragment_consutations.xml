@@ -9,6 +9,13 @@
     android:padding="16dp"
     tools:context=".ui.consultations.ConsultationsFragment">
 
+    <Button
+        android:id="@+id/add_walk_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Add Walk-in Consultation" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/consultations_recycler_view"

@@ -1,18 +1,26 @@
 package com.example.serenityhealth.models;
 
 public class PatientModel {
+    int image;
     String firstName;
     String lastName;
     double weight;
     double height;
     String familyHistory;
+    String section;
 
-    public PatientModel(String firstName, String lastName, double weight, double height, String familyHistory) {
+    public PatientModel(int image, String firstName, String lastName, double weight, double height, String familyHistory, String section) {
+        this.image = image;
         this.firstName = firstName;
         this.lastName = lastName;
         this.weight = weight;
         this.height = height;
         this.familyHistory = familyHistory;
+        this.section = section;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 
     public String getFirstName() {
@@ -33,5 +41,13 @@ public class PatientModel {
 
     public String getFamilyHistory() {
         return familyHistory;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public String getSection() {
+        return section;
     }
 }
