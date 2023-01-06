@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.serenityhealth.R;
 import com.example.serenityhealth.ConsultationActivity;
+import com.example.serenityhealth.R;
 import com.example.serenityhealth.models.ConsultationModel;
 
 import java.util.ArrayList;
