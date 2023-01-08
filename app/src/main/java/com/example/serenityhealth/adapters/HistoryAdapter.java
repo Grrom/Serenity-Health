@@ -36,8 +36,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.MyViewHolder holder, int position) {
-        holder.patientImage.setImageResource(consultations.get(position).getImage());
-        holder.patientName.setText(consultations.get(position).getPatientId() + "");
         holder.date.setText(consultations.get(position).getDate().toString());
         holder.time.setText(consultations.get(position).getTime().toString());
 
@@ -56,8 +54,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView patientImage;
-        TextView patientName;
         TextView date;
         TextView time;
         Button proceedButton;
@@ -65,8 +61,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            patientImage = itemView.findViewById(R.id.patient_image);
-            patientName = itemView.findViewById(R.id.patient_name);
             date = itemView.findViewById(R.id.consultation_date);
             time = itemView.findViewById(R.id.consultation_time);
             proceedButton = itemView.findViewById(R.id.proceed_consultation);

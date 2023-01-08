@@ -2,6 +2,7 @@ package com.example.serenityhealth.ui.consultations;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.serenityhealth.AddAppointmentActivity;
 import com.example.serenityhealth.ConsultationActivity;
-import com.example.serenityhealth.R;
+import com.example.serenityhealth.MainActivity;
 import com.example.serenityhealth.adapters.ConsultationAdapter;
 import com.example.serenityhealth.databinding.FragmentConsutationsBinding;
+import com.example.serenityhealth.helpers.AppointmentDbHelper;
 import com.example.serenityhealth.models.ConsultationModel;
-import com.example.serenityhealth.models.PatientModel;
+import com.example.serenityhealth.models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ConsultationsFragment extends Fragment {
 
+    private static final String TAG ="Consultations" ;
     private FragmentConsutationsBinding binding;
     ArrayList<ConsultationModel> consultations = new ArrayList<>();
+    ConsultationAdapter adapter ;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,30 +40,44 @@ public class ConsultationsFragment extends Fragment {
         RecyclerView recyclerView = binding.consultationsRecyclerView;
         Button addWalkin = binding.addWalkInButton;
         FloatingActionButton fab = binding.fab;
+        MainActivity main = (MainActivity) getActivity();
 
-        fab.setOnClickListener(view -> startActivity(new Intent(getContext(), AddAppointmentActivity.class)));
+        fab.setOnClickListener(view ->{
+           Intent intent =  new Intent(getContext(), AddAppointmentActivity.class);
+           intent.putExtra("user", main.getUser());
+            startActivity(intent);
+        });
 
-        setupConsultations();
+        Log.e(TAG, main.getUser().getFullName() );
 
-        ConsultationAdapter adapter = new ConsultationAdapter(getContext(), consultations);
+        setupConsultations(main.getUser());
+
+         adapter = new ConsultationAdapter(getContext(), consultations);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         addWalkin.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), ConsultationActivity.class);
-            intent.putExtra("thePatient",
-                    new PatientModel(R.drawable.serenity, "Fatima", "Maulion", 30, 140, "Asthma", "BSIT-4.1A"));
+            intent.putExtra("thePatient", main.getUser());
             startActivity(intent);
         });
 
         return root;
     }
 
-    private void setupConsultations() {
-        for (int i = 0; i < 12; i++) {
-            consultations.add(new ConsultationModel(R.drawable.serenity, 1, new Date(), new Time(10)));
+    private void setupConsultations(UserModel user) {
+        consultations.clear();
+        consultations.addAll(AppointmentDbHelper.getAppointmentsByUserId(getContext(),user));
+        if(adapter!=null){
+            adapter.notifyItemInserted(consultations.size());
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity main = (MainActivity) getActivity();
+        setupConsultations(main.getUser());
     }
 
     @Override

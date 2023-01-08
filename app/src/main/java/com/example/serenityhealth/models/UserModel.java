@@ -10,9 +10,10 @@ public class UserModel implements Serializable {
     String userName;
     String password;
     String imageUri;
+    double id;
 
 
-    public UserModel(String firstName, String lastName, double weight, double height, String userName, String password,String imageUri) {
+    public UserModel(String firstName, String lastName, double weight, double height, String userName, String password,String imageUri, double id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.weight = weight;
@@ -20,6 +21,7 @@ public class UserModel implements Serializable {
         this.userName = userName;
         this.password = password;
         this.imageUri = imageUri;
+        this.id = id;
     }
 
     public String getFullName() {
@@ -60,5 +62,13 @@ public class UserModel implements Serializable {
 
     public String getImageUri() {
         return imageUri;
+    }
+
+    public double getId() {
+        return id;
+    }
+
+    public void setId(double id) {
+        this.id = id;
     }
 }

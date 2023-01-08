@@ -62,12 +62,13 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            UserModel user = new UserModel(_firstName,_lastName, Double.parseDouble(_weight), Double.parseDouble(_height), _username, _password, imageUri);
+            UserModel user = new UserModel(_firstName,_lastName, Double.parseDouble(_weight), Double.parseDouble(_height), _username, _password, imageUri,-1);
+            double userId = UserDbHelper.createUser(this, user);
 
-            if(UserDbHelper.createUser(this, user)){
+            if(userId >-1){
+                user.setId(userId);
                 Intent intent =new Intent(this, MainActivity.class);
                 intent.putExtra("user", user);
-
                 startActivity(intent);
             }else{
                 Toast.makeText(this, "Failed to create account.", Toast.LENGTH_SHORT).show();

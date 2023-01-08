@@ -1,34 +1,30 @@
 package com.example.serenityhealth.models;
 
-import java.sql.Time;
+import com.example.serenityhealth.helpers.TimeSlot;
+
 import java.util.Date;
 
 public class ConsultationModel {
-    int image;
-    int patientId;
     Date date;
-    Time time;
+    TimeSlot time;
+    UserModel user;
 
-    public ConsultationModel(int image, int patientId, Date date, Time time) {
-        this.image = image;
-        this.patientId = patientId;
+    public ConsultationModel( Date date, TimeSlot time, UserModel user ) {
         this.date = date;
         this.time = time;
+        this.user = user;
     }
 
-    public int getImage() {
-        return image;
-    }
-
-    public int getPatientId() {
-        return patientId;
-    }
 
     public Date getDate() {
         return date;
     }
 
-    public Time getTime() {
+    public TimeSlot getTime() {
         return time;
+    }
+
+    public UserModel getUser() {
+        return user;
     }
 }

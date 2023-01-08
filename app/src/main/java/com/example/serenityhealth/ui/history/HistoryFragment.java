@@ -14,6 +14,7 @@ import com.example.serenityhealth.R;
 import com.example.serenityhealth.adapters.ConsultationAdapter;
 import com.example.serenityhealth.adapters.HistoryAdapter;
 import com.example.serenityhealth.databinding.FragmentHistoryBinding;
+import com.example.serenityhealth.helpers.TimeSlot;
 import com.example.serenityhealth.models.ConsultationModel;
 
 import java.sql.Time;
@@ -44,9 +45,6 @@ public class HistoryFragment extends Fragment {
     }
 
     private void setupConsultations() {
-        for (int i = 0; i < 12; i++) {
-            consultations.add(new ConsultationModel(R.drawable.serenity, 1, new Date(), new Time(10)));
-        }
     }
 
 

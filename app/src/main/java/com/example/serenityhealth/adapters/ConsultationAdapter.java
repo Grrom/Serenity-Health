@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.serenityhealth.ConsultationActivity;
 import com.example.serenityhealth.R;
+import com.example.serenityhealth.helpers.Constants;
 import com.example.serenityhealth.models.ConsultationModel;
-
 import java.util.ArrayList;
 
 
@@ -36,10 +36,8 @@ public class ConsultationAdapter extends RecyclerView.Adapter<ConsultationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ConsultationAdapter.MyViewHolder holder, int position) {
-        holder.patientImage.setImageResource(consultations.get(position).getImage());
-        holder.patientName.setText(consultations.get(position).getPatientId() + "");
-        holder.date.setText(consultations.get(position).getDate().toString());
-        holder.time.setText(consultations.get(position).getTime().toString());
+        holder.date.setText(Constants.dateFormatter.format(consultations.get(position).getDate()));
+        holder.time.setText(consultations.get(position).getTime().value);
         holder.proceedButton.setOnClickListener(view -> {
             context.startActivity(new Intent(context, ConsultationActivity.class));
         });
@@ -52,8 +50,6 @@ public class ConsultationAdapter extends RecyclerView.Adapter<ConsultationAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView patientImage;
-        TextView patientName;
         TextView date;
         TextView time;
         Button proceedButton;
@@ -61,8 +57,6 @@ public class ConsultationAdapter extends RecyclerView.Adapter<ConsultationAdapte
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            patientImage = itemView.findViewById(R.id.patient_image);
-            patientName = itemView.findViewById(R.id.patient_name);
             date = itemView.findViewById(R.id.consultation_date);
             time = itemView.findViewById(R.id.consultation_time);
             proceedButton = itemView.findViewById(R.id.proceed_consultation);

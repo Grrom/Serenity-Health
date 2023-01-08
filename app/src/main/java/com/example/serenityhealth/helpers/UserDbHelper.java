@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.example.serenityhealth.models.UserModel;
 
-import java.util.ArrayList;
 
 public class UserDbHelper extends SQLiteOpenHelper {
 
@@ -62,7 +61,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public static boolean createUser(Context context,UserModel user){
+    public static double createUser(Context context,UserModel user){
 
         UserDbHelper dbHelper = new UserDbHelper(context);
 
@@ -78,8 +77,60 @@ public class UserDbHelper extends SQLiteOpenHelper {
         values.put(UserContract.FeedEntry.IMAGE_URI, user.getImageUri());
 
 
-        return db.insert(UserContract.FeedEntry.TABLE_NAME, null, values) >= 0;
+        return db.insert(UserContract.FeedEntry.TABLE_NAME, null, values);
     }
+
+    public static UserModel getUserById(Context context,  String userId  ) {
+        UserDbHelper dbHelper = new UserDbHelper(context);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID,
+                UserContract.FeedEntry.FIRST_NAME,
+                UserContract.FeedEntry.LAST_NAME,
+                UserContract.FeedEntry.WEIGHT,
+                UserContract.FeedEntry.HEIGHT,
+                UserContract.FeedEntry.USERNAME,
+                UserContract.FeedEntry.PASSWORD,
+                UserContract.FeedEntry.IMAGE_URI,
+        };
+
+        String selection = UserContract.FeedEntry._ID + " = ?";
+        String[] selectionArgs = { userId };
+
+        Cursor cursor = db.query(
+                UserContract.FeedEntry.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+
+        UserModel user = new UserModel("","", 0, 0, "","","",-1);
+
+        while(cursor.moveToNext()) {
+            Log.e(TAG, cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.USERNAME)));
+
+            String _password= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.PASSWORD));
+            String _firstname= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.FIRST_NAME));
+            String _lastname= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.LAST_NAME));
+            double _weight= cursor.getDouble(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.WEIGHT));
+            double _height= cursor.getDouble(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.HEIGHT));
+            String _username= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.USERNAME));
+            String _image_uri= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.IMAGE_URI));
+            double _user_id= cursor.getDouble(cursor.getColumnIndexOrThrow(UserContract.FeedEntry._ID));
+
+            user= new UserModel(_firstname, _lastname, _weight, _height, _username, _password,_image_uri,_user_id);
+
+        }
+        cursor.close();
+
+        return user;
+    }
+
 
     public static UserModel loginUser(Context context, String username, String password  ) throws Exception {
         UserDbHelper dbHelper = new UserDbHelper(context);
@@ -88,6 +139,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
 
         String[] projection = {
                 BaseColumns._ID,
+                UserContract.FeedEntry._ID,
                 UserContract.FeedEntry.FIRST_NAME,
                 UserContract.FeedEntry.LAST_NAME,
                 UserContract.FeedEntry.WEIGHT,
@@ -115,7 +167,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
             throw new Exception("User not found!");
         }
 
-        UserModel user = new UserModel("","", 0, 0, "","","");
+        UserModel user = new UserModel("","", 0, 0, "","","",-1);
 
         while(cursor.moveToNext()) {
             Log.e(TAG, cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.USERNAME)));
@@ -126,6 +178,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
                 throw new Exception("Incorrect password!");
             }
 
+            double _id= cursor.getDouble(cursor.getColumnIndexOrThrow(UserContract.FeedEntry._ID));
             String _firstname= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.FIRST_NAME));
             String _lastname= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.LAST_NAME));
             double _weight= cursor.getDouble(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.WEIGHT));
@@ -133,7 +186,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
             String _username= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.USERNAME));
             String _image_uri= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.IMAGE_URI));
 
-            user= new UserModel(_firstname, _lastname, _weight, _height, _username, _password,_image_uri);
+            user= new UserModel(_firstname, _lastname, _weight, _height, _username, _password,_image_uri, _id);
 
         }
         cursor.close();

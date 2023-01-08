@@ -28,13 +28,17 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private static String TAG = "MainActivity";
+    UserModel user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        user = (UserModel)getIntent().getSerializableExtra("user");
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
@@ -49,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e(TAG, name.getText().toString() );
 
-        UserModel user = (UserModel)getIntent().getSerializableExtra("user");
 
         image.setImageURI(Uri.parse(user.getImageUri()));
         name.setText(user.getFullName());
@@ -63,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    public UserModel getUser(){
+        return user;
     }
 
     @Override
