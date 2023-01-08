@@ -42,6 +42,14 @@ public class UserModel implements Serializable {
         return height;
     }
 
+    public String getWeightKg() {
+        return weight + " kg";
+    }
+
+    public String getHeightCm() {
+        return height + " cm";
+    }
+
     public String getUserName() {
         return userName;
     }

@@ -1,9 +1,16 @@
 package com.example.serenityhealth;
 
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.example.serenityhealth.models.UserModel;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -20,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
+    private static String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +40,22 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AddAppointmentActivity.class)));
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+        LinearLayout navHeaderView= (LinearLayout) navigationView.getHeaderView(0);
+
+        ImageView image= (ImageView) navHeaderView.findViewById(R.id.user_image);
+        TextView name= (TextView) navHeaderView.findViewById(R.id.user_name);
+        TextView weight= (TextView) navHeaderView.findViewById(R.id.user_weight);
+        TextView height= (TextView) navHeaderView.findViewById(R.id.user_height);
+
+        Log.e(TAG, name.getText().toString() );
+
+        UserModel user = (UserModel)getIntent().getSerializableExtra("user");
+
+        image.setImageURI(Uri.parse(user.getImageUri()));
+        name.setText(user.getFullName());
+        weight.setText(user.getWeightKg());
+        height.setText(user.getHeightCm());
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery)
