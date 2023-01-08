@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AddAppointmentActivity.class)));
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 

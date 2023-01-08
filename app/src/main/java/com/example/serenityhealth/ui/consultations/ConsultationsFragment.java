@@ -12,12 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.serenityhealth.AddAppointmentActivity;
 import com.example.serenityhealth.ConsultationActivity;
 import com.example.serenityhealth.R;
 import com.example.serenityhealth.adapters.ConsultationAdapter;
 import com.example.serenityhealth.databinding.FragmentConsutationsBinding;
 import com.example.serenityhealth.models.ConsultationModel;
 import com.example.serenityhealth.models.PatientModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -35,6 +37,9 @@ public class ConsultationsFragment extends Fragment {
 
         RecyclerView recyclerView = binding.consultationsRecyclerView;
         Button addWalkin = binding.addWalkInButton;
+        FloatingActionButton fab = binding.fab;
+
+        fab.setOnClickListener(view -> startActivity(new Intent(getContext(), AddAppointmentActivity.class)));
 
         setupConsultations();
 
