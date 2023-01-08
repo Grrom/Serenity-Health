@@ -27,6 +27,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
             public static final String HEIGHT = "height";
             public static final String USERNAME = "username";
             public static final String PASSWORD = "password";
+            public static final String IMAGE_URI = "image_uri";
         }
     }
 
@@ -41,7 +42,8 @@ public class UserDbHelper extends SQLiteOpenHelper {
                     UserContract.FeedEntry.WEIGHT + " TEXT," +
                     UserContract.FeedEntry.HEIGHT + " TEXT," +
                     UserContract.FeedEntry.USERNAME + " TEXT," +
-                    UserContract.FeedEntry.PASSWORD + " TEXT)";
+                    UserContract.FeedEntry.PASSWORD + " TEXT," +
+                    UserContract.FeedEntry.IMAGE_URI + " TEXT)";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + UserContract.FeedEntry.TABLE_NAME;
@@ -73,6 +75,8 @@ public class UserDbHelper extends SQLiteOpenHelper {
         values.put(UserContract.FeedEntry.HEIGHT, user.getHeight());
         values.put(UserContract.FeedEntry.USERNAME, user.getUserName());
         values.put(UserContract.FeedEntry.PASSWORD, user.getPassword());
+        values.put(UserContract.FeedEntry.IMAGE_URI, user.getImageUri());
+
 
         return db.insert(UserContract.FeedEntry.TABLE_NAME, null, values) >= 0;
     }
@@ -90,6 +94,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
                 UserContract.FeedEntry.HEIGHT,
                 UserContract.FeedEntry.USERNAME,
                 UserContract.FeedEntry.PASSWORD,
+                UserContract.FeedEntry.IMAGE_URI,
         };
 
         String selection = UserContract.FeedEntry.USERNAME + " = ?";
@@ -110,7 +115,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
             throw new Exception("User not found!");
         }
 
-        UserModel user = new UserModel("","", 0, 0, "","");
+        UserModel user = new UserModel("","", 0, 0, "","","");
 
         while(cursor.moveToNext()) {
             Log.e(TAG, cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.USERNAME)));
@@ -126,8 +131,9 @@ public class UserDbHelper extends SQLiteOpenHelper {
             double _weight= cursor.getDouble(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.WEIGHT));
             double _height= cursor.getDouble(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.HEIGHT));
             String _username= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.USERNAME));
+            String _image_uri= cursor.getString(cursor.getColumnIndexOrThrow(UserContract.FeedEntry.IMAGE_URI));
 
-            user= new UserModel(_firstname, _lastname, _weight, _height, _username, _password);
+            user= new UserModel(_firstname, _lastname, _weight, _height, _username, _password,_image_uri);
 
         }
         cursor.close();

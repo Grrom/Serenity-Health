@@ -9,15 +9,17 @@ public class UserModel implements Serializable {
     double height;
     String userName;
     String password;
+    String imageUri;
 
 
-    public UserModel(String firstName, String lastName, double weight, double height, String userName, String password) {
+    public UserModel(String firstName, String lastName, double weight, double height, String userName, String password,String imageUri) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.weight = weight;
         this.height = height;
         this.userName = userName;
         this.password = password;
+        this.imageUri = imageUri;
     }
 
     public String getFullName() {
@@ -46,5 +48,9 @@ public class UserModel implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getImageUri() {
+        return imageUri;
     }
 }
