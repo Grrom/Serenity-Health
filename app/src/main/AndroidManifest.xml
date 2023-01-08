@@ -14,13 +14,16 @@
         android:theme="@style/Theme.SerenityHealth"
         tools:targetApi="31">
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddAppointmentActivity"
             android:exported="false"
-            android:parentActivityName="com.example.serenityhealth.MainActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ConsultationActivity"
             android:exported="false"
-            android:parentActivityName="com.example.serenityhealth.MainActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
