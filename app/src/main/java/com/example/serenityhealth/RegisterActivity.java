@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         profilePicture.setOnClickListener(view->{
             ImagePicker.with(this)
-                    .crop()
+                    .crop(9f, 9f )
                     .compress(100)
                     .start();
         });
