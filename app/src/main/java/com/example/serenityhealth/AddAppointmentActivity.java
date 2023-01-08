@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.serenityhealth.helpers.AppointmentDbHelper;
 import com.example.serenityhealth.helpers.Constants;
@@ -69,6 +70,10 @@ public class AddAppointmentActivity extends AppCompatActivity {
         pickTimeSlot.setAdapter(adapter);
 
         addAppointmentButton.setOnClickListener(view -> {
+            if(datePicker.getText().toString().isEmpty()|| pickTimeSlot.getSelectedItem().toString().isEmpty()){
+                Toast.makeText(this,"Please fill all the fields.",Toast.LENGTH_SHORT).show();
+                return;
+            }
             try {
                 AppointmentDbHelper.createAppointment(this, new ConsultationModel(Constants.dateFormatter.parse(datePicker.getText().toString()), TimeSlot.toTimeSlot( pickTimeSlot.getSelectedItem().toString()), user));
             } catch (ParseException e) {
