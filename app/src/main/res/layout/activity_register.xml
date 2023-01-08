@@ -56,6 +56,7 @@
             android:id="@+id/input_weight"
             android:hint="Weight"
             android:layout_weight="1"
+            android:inputType="numberDecimal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -79,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/input_username"
             android:hint="Username"
             android:layout_weight="1"
             android:layout_width="match_parent"
@@ -94,9 +95,9 @@
         app:passwordToggleEnabled="true"
         >
         <EditText
-            android:hint="*******"
+            android:id="@+id/input_password"
+            android:hint="Password"
             android:inputType="textPassword"
-            android:id="@+id/passwordd"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

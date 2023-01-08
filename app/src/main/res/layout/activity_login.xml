@@ -23,7 +23,7 @@
         android:layout_marginVertical="8dp"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/input_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
@@ -38,7 +38,7 @@
         app:passwordToggleEnabled="true"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/input_password"
             android:hint="Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
