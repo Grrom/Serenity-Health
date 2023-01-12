@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -53,23 +55,41 @@ public class AddAppointmentActivity extends AppCompatActivity {
 
         Spinner pickTimeSlot = findViewById(R.id.time_input);
 
-        datePicker.setOnClickListener(view->{
-             DatePickerDialog dp = new DatePickerDialog(this, (view1, year, month, dayOfMonth) -> datePicker.setText(Constants.dateFormatter.format(new Date(year-1900, month, dayOfMonth))),today.get(Calendar.YEAR) , today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
-             dp.show();
-        });
-
-
         ArrayList<String> timeSlots = new ArrayList<>();
-        for (int i = 0; i < TimeSlot.values().length; i++) {
-            timeSlots.add(TimeSlot.values()[i].value);
-        }
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeSlots);
+
+        datePicker.setOnClickListener(view->{
+
+             DatePickerDialog dp = new DatePickerDialog(this, (view1, year, month, dayOfMonth) ->{
+                 Date selectedDate = new Date(year-1900, month, dayOfMonth);
+                 ArrayList<TimeSlot> availableTimeSlots=AppointmentDbHelper.getTimeSlotsAvailableByDate(this,selectedDate );
+
+                 for (int i = 0; i < availableTimeSlots.size(); i++) {
+                     timeSlots.add(availableTimeSlots.get(i).value);
+                 }
+
+                 adapter.notifyDataSetChanged();
+
+                 if(availableTimeSlots.isEmpty()){
+                     Toast.makeText(this, "Sorry there are no available timeslots for that day.",Toast.LENGTH_LONG ).show();
+                 }else{
+                     datePicker.setText(Constants.dateFormatter.format(new Date(year-1900, month, dayOfMonth)));
+                 }
+             } ,today.get(Calendar.YEAR) , today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+
+            dp.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+            dp.show();
+        });
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         pickTimeSlot.setAdapter(adapter);
 
         addAppointmentButton.setOnClickListener(view -> {
+//            Log.e(TAG, TimeSlot.toTimeSlot(pickTimeSlot.getSelectedItem().toString()).value);
+//            return;
+
             if(datePicker.getText().toString().isEmpty()|| pickTimeSlot.getSelectedItem().toString().isEmpty()){
                 Toast.makeText(this,"Please fill all the fields.",Toast.LENGTH_SHORT).show();
                 return;

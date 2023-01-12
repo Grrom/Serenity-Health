@@ -20,6 +20,7 @@ import com.example.serenityhealth.MainActivity;
 import com.example.serenityhealth.adapters.ConsultationAdapter;
 import com.example.serenityhealth.databinding.FragmentConsutationsBinding;
 import com.example.serenityhealth.helpers.AppointmentDbHelper;
+import com.example.serenityhealth.helpers.TimeSlot;
 import com.example.serenityhealth.models.ConsultationModel;
 import com.example.serenityhealth.models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.SimpleTimeZone;
 
 public class ConsultationsFragment extends Fragment {
@@ -59,6 +61,13 @@ public class ConsultationsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         addWalkin.setOnClickListener(view -> {
+            ArrayList<TimeSlot> availableTimeSlots=AppointmentDbHelper.getTimeSlotsAvailableByDate(getActivity(),Calendar.getInstance().getTime());
+
+            if(!availableTimeSlots.contains(TimeSlot.getTimeSlotNow())){
+                Toast.makeText(getActivity(), "Sorry another patient has an appointment at the moment and walk-in consultations are not allowed at this time.",Toast.LENGTH_LONG ).show();
+                return;
+            }
+
             int timeNow = Integer.parseInt(new SimpleDateFormat("k").format(Calendar.getInstance().getTime()));
             Log.e(TAG, String.valueOf(timeNow));
 
@@ -66,10 +75,12 @@ public class ConsultationsFragment extends Fragment {
                 Toast.makeText(getActivity(), "It's too early to walk in, the clinic opens at 9am",Toast.LENGTH_LONG ).show();
                 return;
             }
+
             if(timeNow>=17){
                 Toast.makeText(getActivity(), "Sorry the clinic is closed, please come back tomorrow.",Toast.LENGTH_LONG ).show();
                 return;
             }
+
 
             Intent intent = new Intent(getActivity(), ConsultationActivity.class);
             intent.putExtra("theUser", main.getUser());

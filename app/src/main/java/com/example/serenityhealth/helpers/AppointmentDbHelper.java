@@ -13,6 +13,7 @@ import com.example.serenityhealth.models.UserModel;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AppointmentDbHelper extends SQLiteOpenHelper {
 
@@ -112,5 +113,50 @@ public class AppointmentDbHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return consultations;
+    }
+
+    public static ArrayList<TimeSlot> getTimeSlotsAvailableByDate(Context context, Date dateSelected)  {
+        AppointmentDbHelper dbHelper = new AppointmentDbHelper(context);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] projection = {
+                BaseColumns._ID,
+                AppointmentContract.FeedEntry.TIMESLOT,
+        };
+
+        String selection = AppointmentContract.FeedEntry.DATE + " = ?";
+        String[] selectionArgs = { Constants.dateFormatter.format(dateSelected) };
+
+        Cursor cursor = db.query(
+                AppointmentContract.FeedEntry.TABLE_NAME,   // The table to query
+                projection,             // The array of columns to return (pass null to get all)
+                selection,              // The columns for the WHERE clause
+                selectionArgs,          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+
+
+        ArrayList<TimeSlot> timeSlotsTaken = new ArrayList<>();
+        ArrayList<TimeSlot> timeSlotsAvailable = new ArrayList<>();
+
+        while(cursor.moveToNext()) {
+            String _timeslot= cursor.getString(cursor.getColumnIndexOrThrow(AppointmentContract.FeedEntry.TIMESLOT));
+            if(timeSlotsTaken.contains(_timeslot)){
+                continue;
+            }
+            timeSlotsTaken.add(TimeSlot.toTimeSlot(_timeslot));
+        }
+        cursor.close();
+
+        for (int i = 0; i < TimeSlot.values().length; i++) {
+            if(!timeSlotsTaken.contains(TimeSlot.values()[i])){
+                timeSlotsAvailable.add(TimeSlot.values()[i]);
+            }
+        }
+
+        return timeSlotsAvailable;
     }
 }

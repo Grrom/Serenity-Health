@@ -24,7 +24,7 @@ public enum TimeSlot {
         TimeSlot theSlot = TimeSlot.am9_10;
 
         for (int i = 0; i < TimeSlot.values().length; i++) {
-            if(TimeSlot.values()[i].value == value){
+            if(TimeSlot.values()[i].value.equalsIgnoreCase(value)){
                theSlot= TimeSlot.values()[i];
                 break;
             }
@@ -37,6 +37,7 @@ public enum TimeSlot {
         Calendar timeNextHour =  Calendar.getInstance();
         timeNextHour.add(Calendar.HOUR_OF_DAY, 1);
         String theTimeSlotString =new SimpleDateFormat("ha").format(timeNow.getTime())+" - "+new SimpleDateFormat("ha").format(timeNextHour.getTime());
+        Log.e("SA TIME", theTimeSlotString );
         return TimeSlot.toTimeSlot(theTimeSlotString);
     }
 }
