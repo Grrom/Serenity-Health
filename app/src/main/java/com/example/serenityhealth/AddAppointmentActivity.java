@@ -65,17 +65,20 @@ public class AddAppointmentActivity extends AppCompatActivity {
              DatePickerDialog dp = new DatePickerDialog(this, (view1, year, month, dayOfMonth) ->{
                  Date selectedDate = new Date(year-1900, month, dayOfMonth);
                  ArrayList<TimeSlot> availableTimeSlots=AppointmentDbHelper.getTimeSlotsAvailableByDate(this,selectedDate );
+                 boolean isToday = Constants.dateFormatter.format(Calendar.getInstance().getTime()).equals(Constants.dateFormatter.format(selectedDate));
+                 int timeNow = Integer.parseInt(new SimpleDateFormat("k").format(Calendar.getInstance().getTime()));
 
 
                  timeSlots.clear();
                  for (int i = 0; i < availableTimeSlots.size(); i++) {
-                     if(!TimeSlot.isPastTime(availableTimeSlots.get(i))){
+//                     if(isToday && TimeSlot.isPastTime(availableTimeSlots.get(i))){
+//                     }else{
+                     if(!(isToday && TimeSlot.isPastTime(availableTimeSlots.get(i)))){
                          timeSlots.add(availableTimeSlots.get(i).value);
                      }
+//                     }
                  }
 
-                 boolean isToday = Constants.dateFormatter.format(Calendar.getInstance().getTime()).equals(Constants.dateFormatter.format(selectedDate));
-                 int timeNow = Integer.parseInt(new SimpleDateFormat("k").format(Calendar.getInstance().getTime()));
 
                  if(isToday && timeNow>=17){
                      timeSlots.clear();
