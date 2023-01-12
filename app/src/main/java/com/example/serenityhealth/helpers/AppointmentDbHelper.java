@@ -101,11 +101,12 @@ public class AppointmentDbHelper extends SQLiteOpenHelper {
         Log.e(TAG, "getAppointmentsByUserId: "+cursor.getCount());
 
         while(cursor.moveToNext()) {
+            String _id= cursor.getString(cursor.getColumnIndexOrThrow(AppointmentContract.FeedEntry._ID));
             String _date= cursor.getString(cursor.getColumnIndexOrThrow(AppointmentContract.FeedEntry.DATE));
             String _timeslot= cursor.getString(cursor.getColumnIndexOrThrow(AppointmentContract.FeedEntry.TIMESLOT));
 
             try {
-                consultations.add(new ConsultationModel(Constants.dateFormatter.parse( _date), TimeSlot.toTimeSlot(_timeslot), user));
+                consultations.add(new ConsultationModel(_id,Constants.dateFormatter.parse( _date), TimeSlot.toTimeSlot(_timeslot), user));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -158,5 +159,14 @@ public class AppointmentDbHelper extends SQLiteOpenHelper {
         }
 
         return timeSlotsAvailable;
+    }
+
+    public static void deleteAppointment(Context context,String appointmentId){
+        AppointmentDbHelper dbHelper = new AppointmentDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String selection = AppointmentContract.FeedEntry._ID + " LIKE ?";
+        String[] selectionArgs = { appointmentId };
+        db.delete(AppointmentContract.FeedEntry.TABLE_NAME, selection, selectionArgs);
     }
 }

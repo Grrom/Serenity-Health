@@ -20,6 +20,7 @@ import com.example.serenityhealth.MainActivity;
 import com.example.serenityhealth.adapters.ConsultationAdapter;
 import com.example.serenityhealth.databinding.FragmentConsutationsBinding;
 import com.example.serenityhealth.helpers.AppointmentDbHelper;
+import com.example.serenityhealth.helpers.Constants;
 import com.example.serenityhealth.helpers.TimeSlot;
 import com.example.serenityhealth.models.ConsultationModel;
 import com.example.serenityhealth.models.UserModel;
@@ -28,8 +29,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.SimpleTimeZone;
+import java.util.function.Predicate;
 
 public class ConsultationsFragment extends Fragment {
 
@@ -94,8 +97,22 @@ public class ConsultationsFragment extends Fragment {
     private void setupConsultations(UserModel user) {
         consultations.clear();
         consultations.addAll(AppointmentDbHelper.getAppointmentsByUserId(getContext(),user));
+        consultations.removeIf(
+                consultationModel -> {
+                    boolean isToday = Constants.dateFormatter.format(Calendar.getInstance().getTime()).equals(Constants.dateFormatter.format(consultationModel.getDate()));
+                    boolean isHourPast = TimeSlot.isPastTime(consultationModel.getTime());
+
+                    Calendar yesterday =Calendar.getInstance();
+                    yesterday.add(Calendar.DATE, -1);
+
+                    boolean isPast = consultationModel.getDate().before(yesterday.getTime());
+                    return isPast || (isToday && isHourPast);
+                }
+        );
+        consultations.sort(Comparator.comparing(ConsultationModel::getDate));
+
         if(adapter!=null){
-            adapter.notifyItemInserted(consultations.size());
+            adapter.notifyDataSetChanged();
         }
     }
 

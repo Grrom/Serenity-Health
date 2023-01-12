@@ -5,14 +5,15 @@ import com.example.serenityhealth.helpers.TimeSlot;
 import java.util.Date;
 
 public class HistoryModel extends ConsultationModel{
+    String id;
     String bloodPressureSystolic;
     String bloodPressureDiastolic;
     String temperature;
     String symptoms;
     String diagnosis;
 
-    public HistoryModel(Date date, TimeSlot time, UserModel user, String bloodPressureSystolic, String bloodPressureDiastolic, String temperature, String symptoms, String diagnosis) {
-        super(date, time, user);
+    public HistoryModel(String id,Date date, TimeSlot time, UserModel user, String bloodPressureSystolic, String bloodPressureDiastolic, String temperature, String symptoms, String diagnosis) {
+        super(id,date, time, user);
         this.bloodPressureSystolic = bloodPressureSystolic;
         this.bloodPressureDiastolic = bloodPressureDiastolic;
         this.temperature = temperature;

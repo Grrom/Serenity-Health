@@ -2,8 +2,12 @@ package com.example.serenityhealth.helpers;
 
 import android.util.Log;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 public enum TimeSlot {
     am9_10("9am - 10am"),
@@ -30,6 +34,20 @@ public enum TimeSlot {
             }
         }
         return theSlot;
+    }
+
+    public static ArrayList<TimeSlot> toArrayList(){
+        ArrayList<TimeSlot> x = new ArrayList<>();
+
+        for (int i = 0; i < TimeSlot.values().length; i++) {
+            x.add(TimeSlot.values()[i]);
+        }
+
+        return x;
+    }
+
+    public static boolean isPastTime(TimeSlot timeSlot){
+        return TimeSlot.toArrayList().indexOf(timeSlot) < TimeSlot.toArrayList().indexOf(TimeSlot.getTimeSlotNow());
     }
 
     public static TimeSlot getTimeSlotNow(){

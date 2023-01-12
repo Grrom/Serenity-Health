@@ -40,6 +40,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     public void onBindViewHolder(@NonNull HistoryAdapter.MyViewHolder holder, int position) {
         holder.date.setText(Constants.dateFormatter.format(histories.get(position).getDate()));
         holder.time.setText(histories.get(position).getTime().value);
+        holder.diagnosis.setText(histories.get(position).getDiagnosis());
 
         holder.proceedButton.setText("View");
         holder.proceedButton.setOnClickListener(view -> {
@@ -61,6 +62,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         TextView date;
         TextView time;
+        TextView diagnosis;
         Button proceedButton;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -68,6 +70,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
             date = itemView.findViewById(R.id.consultation_date);
             time = itemView.findViewById(R.id.consultation_time);
+            diagnosis = itemView.findViewById(R.id.consultation_diagnosis);
             proceedButton = itemView.findViewById(R.id.proceed_consultation);
         }
     }

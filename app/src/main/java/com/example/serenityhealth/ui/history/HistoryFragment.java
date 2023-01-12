@@ -24,6 +24,7 @@ import com.example.serenityhealth.models.UserModel;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 
@@ -54,6 +55,7 @@ public class HistoryFragment extends Fragment {
     private void setupHistories(UserModel user) {
         histories.clear();
         histories.addAll(HistoryDbHelper.getHistoryByUserUserId(getContext(),user));
+        histories.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
         if(adapter!=null){
             adapter.notifyItemInserted(histories.size());
         }

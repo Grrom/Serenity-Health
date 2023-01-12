@@ -99,10 +99,12 @@ public class ConsultationActivity extends AppCompatActivity {
             }
 
             try {
-                HistoryDbHelper.createHistory(this, new HistoryModel(Constants.dateFormatter.parse(date.getText().toString()), TimeSlot.toTimeSlot(time.getText().toString()), user, _bpSys, _bpDias, _temperature,_symptoms, _diagnosis));
+                HistoryDbHelper.createHistory(this, new HistoryModel("",Constants.dateFormatter.parse(date.getText().toString()), TimeSlot.toTimeSlot(time.getText().toString()), user, _bpSys, _bpDias, _temperature,_symptoms, _diagnosis));
+                if(!isWalkIn){
+                    AppointmentDbHelper.deleteAppointment(this, consultation.getId());
+                }
                 onBackPressed();
             } catch (ParseException e) {
-                Log.e(TAG, "ERROR:" );
                 e.printStackTrace();
             }
         });

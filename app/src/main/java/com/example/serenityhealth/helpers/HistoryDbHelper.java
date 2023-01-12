@@ -119,6 +119,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
         ArrayList<HistoryModel> histories = new ArrayList<>();
 
         while(cursor.moveToNext()) {
+            String _id= cursor.getString(cursor.getColumnIndexOrThrow(HistoryContract.FeedEntry._ID));
             String _date= cursor.getString(cursor.getColumnIndexOrThrow(HistoryContract.FeedEntry.DATE));
             String _timeslot= cursor.getString(cursor.getColumnIndexOrThrow(HistoryContract.FeedEntry.TIMESLOT));
             String _bloodPressureSys= cursor.getString(cursor.getColumnIndexOrThrow(HistoryContract.FeedEntry.BLOOD_PRESSURE_SYS));
@@ -128,7 +129,7 @@ public class HistoryDbHelper extends SQLiteOpenHelper {
             String _diagnosis= cursor.getString(cursor.getColumnIndexOrThrow(HistoryContract.FeedEntry.DIAGNOSIS));
 
             try {
-                histories.add(new HistoryModel(Constants.dateFormatter.parse(_date), TimeSlot.toTimeSlot(_timeslot), user, _bloodPressureSys, _bloodPressureDias, _temperature, _symptoms, _diagnosis));
+                histories.add(new HistoryModel(_id,Constants.dateFormatter.parse(_date), TimeSlot.toTimeSlot(_timeslot), user, _bloodPressureSys, _bloodPressureDias, _temperature, _symptoms, _diagnosis));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -65,6 +65,7 @@ public class AddAppointmentActivity extends AppCompatActivity {
                  Date selectedDate = new Date(year-1900, month, dayOfMonth);
                  ArrayList<TimeSlot> availableTimeSlots=AppointmentDbHelper.getTimeSlotsAvailableByDate(this,selectedDate );
 
+                 timeSlots.clear();
                  for (int i = 0; i < availableTimeSlots.size(); i++) {
                      timeSlots.add(availableTimeSlots.get(i).value);
                  }
@@ -95,7 +96,7 @@ public class AddAppointmentActivity extends AppCompatActivity {
                 return;
             }
             try {
-                AppointmentDbHelper.createAppointment(this, new ConsultationModel(Constants.dateFormatter.parse(datePicker.getText().toString()), TimeSlot.toTimeSlot( pickTimeSlot.getSelectedItem().toString()), user));
+                AppointmentDbHelper.createAppointment(this, new ConsultationModel("",Constants.dateFormatter.parse(datePicker.getText().toString()), TimeSlot.toTimeSlot( pickTimeSlot.getSelectedItem().toString()), user));
                 onBackPressed();
             } catch (ParseException e) {
                 e.printStackTrace();
