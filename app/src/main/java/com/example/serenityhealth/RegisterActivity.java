@@ -68,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
             if(userId >-1){
                 user.setId(userId);
                 Intent intent =new Intent(this, MainActivity.class);
-                intent.putExtra("user", user);
+                intent.putExtra("theUser", user);
                 startActivity(intent);
             }else{
                 Toast.makeText(this, "Failed to create account.", Toast.LENGTH_SHORT).show();

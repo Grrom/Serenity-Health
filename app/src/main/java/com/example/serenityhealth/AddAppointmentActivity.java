@@ -34,7 +34,7 @@ public class AddAppointmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment);
 
-        UserModel user = (UserModel) getIntent().getSerializableExtra("user");
+        UserModel user = (UserModel) getIntent().getSerializableExtra("theUser");
 
         getSupportActionBar().setTitle("Add Appointment");
 
@@ -76,6 +76,7 @@ public class AddAppointmentActivity extends AppCompatActivity {
             }
             try {
                 AppointmentDbHelper.createAppointment(this, new ConsultationModel(Constants.dateFormatter.parse(datePicker.getText().toString()), TimeSlot.toTimeSlot( pickTimeSlot.getSelectedItem().toString()), user));
+                onBackPressed();
             } catch (ParseException e) {
                 e.printStackTrace();
             }

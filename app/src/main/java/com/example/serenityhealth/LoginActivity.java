@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 Intent intent =new Intent(this, MainActivity.class);
-                intent.putExtra("user",UserDbHelper.loginUser(this, _username, _password));
+                intent.putExtra("theUser",UserDbHelper.loginUser(this, _username, _password));
                 startActivity(intent);
             } catch (Exception e) {
                 Toast.makeText(this, e.getMessage(),Toast.LENGTH_SHORT).show();

@@ -14,18 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.serenityhealth.ConsultationActivity;
 import com.example.serenityhealth.R;
+import com.example.serenityhealth.helpers.Constants;
 import com.example.serenityhealth.models.ConsultationModel;
+import com.example.serenityhealth.models.HistoryModel;
 
 import java.util.ArrayList;
 
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHolder> {
     Context context;
-    ArrayList<ConsultationModel> consultations;
+    ArrayList<HistoryModel> histories;
 
-    public HistoryAdapter(Context context, ArrayList<ConsultationModel> consultations) {
+    public HistoryAdapter(Context context, ArrayList<HistoryModel> histories) {
         this.context = context;
-        this.consultations = consultations;
+        this.histories = histories;
     }
 
     @NonNull
@@ -36,20 +38,22 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.MyViewHolder holder, int position) {
-        holder.date.setText(consultations.get(position).getDate().toString());
-        holder.time.setText(consultations.get(position).getTime().toString());
+        holder.date.setText(Constants.dateFormatter.format(histories.get(position).getDate()));
+        holder.time.setText(histories.get(position).getTime().value);
 
         holder.proceedButton.setText("View");
         holder.proceedButton.setOnClickListener(view -> {
             Intent intent = new Intent(context, ConsultationActivity.class);
             intent.putExtra("isHistory", true);
+            intent.putExtra("theConsultation", histories.get(position));
+            intent.putExtra("theHistory", histories.get(position));
             context.startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        return consultations.size();
+        return histories.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

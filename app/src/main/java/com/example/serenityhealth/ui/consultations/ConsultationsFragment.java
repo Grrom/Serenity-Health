@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,7 +24,10 @@ import com.example.serenityhealth.models.ConsultationModel;
 import com.example.serenityhealth.models.UserModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.SimpleTimeZone;
 
 public class ConsultationsFragment extends Fragment {
 
@@ -44,21 +48,32 @@ public class ConsultationsFragment extends Fragment {
 
         fab.setOnClickListener(view ->{
            Intent intent =  new Intent(getContext(), AddAppointmentActivity.class);
-           intent.putExtra("user", main.getUser());
-            startActivity(intent);
+           intent.putExtra("theUser", main.getUser());
+           startActivity(intent);
         });
-
-        Log.e(TAG, main.getUser().getFullName() );
 
         setupConsultations(main.getUser());
 
-         adapter = new ConsultationAdapter(getContext(), consultations);
+        adapter = new ConsultationAdapter(getContext(), consultations);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         addWalkin.setOnClickListener(view -> {
+            int timeNow = Integer.parseInt(new SimpleDateFormat("k").format(Calendar.getInstance().getTime()));
+            Log.e(TAG, String.valueOf(timeNow));
+
+            if(timeNow<9){
+                Toast.makeText(getActivity(), "It's too early to walk in, the clinic opens at 9am",Toast.LENGTH_LONG ).show();
+                return;
+            }
+            if(timeNow>=17){
+                Toast.makeText(getActivity(), "Sorry the clinic is closed, please come back tomorrow.",Toast.LENGTH_LONG ).show();
+                return;
+            }
+
             Intent intent = new Intent(getActivity(), ConsultationActivity.class);
-            intent.putExtra("thePatient", main.getUser());
+            intent.putExtra("theUser", main.getUser());
+            intent.putExtra("isWalkIn", true);
             startActivity(intent);
         });
 

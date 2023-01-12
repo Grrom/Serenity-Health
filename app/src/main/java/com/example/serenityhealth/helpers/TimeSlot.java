@@ -1,5 +1,10 @@
 package com.example.serenityhealth.helpers;
 
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public enum TimeSlot {
     am9_10("9am - 10am"),
     am10_11("10am - 11am"),
@@ -25,5 +30,13 @@ public enum TimeSlot {
             }
         }
         return theSlot;
+    }
+
+    public static TimeSlot getTimeSlotNow(){
+        Calendar timeNow =  Calendar.getInstance();
+        Calendar timeNextHour =  Calendar.getInstance();
+        timeNextHour.add(Calendar.HOUR_OF_DAY, 1);
+        String theTimeSlotString =new SimpleDateFormat("ha").format(timeNow.getTime())+" - "+new SimpleDateFormat("ha").format(timeNextHour.getTime());
+        return TimeSlot.toTimeSlot(theTimeSlotString);
     }
 }

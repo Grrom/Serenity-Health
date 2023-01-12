@@ -2,9 +2,10 @@ package com.example.serenityhealth.models;
 
 import com.example.serenityhealth.helpers.TimeSlot;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ConsultationModel {
+public class ConsultationModel implements Serializable {
     Date date;
     TimeSlot time;
     UserModel user;

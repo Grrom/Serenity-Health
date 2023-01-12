@@ -39,7 +39,9 @@ public class ConsultationAdapter extends RecyclerView.Adapter<ConsultationAdapte
         holder.date.setText(Constants.dateFormatter.format(consultations.get(position).getDate()));
         holder.time.setText(consultations.get(position).getTime().value);
         holder.proceedButton.setOnClickListener(view -> {
-            context.startActivity(new Intent(context, ConsultationActivity.class));
+            Intent intent = new Intent(context, ConsultationActivity.class);
+            intent.putExtra("theConsultation", consultations.get(position));
+            context.startActivity(intent);
         });
     }
 
