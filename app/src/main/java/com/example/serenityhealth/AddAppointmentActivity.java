@@ -21,6 +21,7 @@ import com.example.serenityhealth.models.ConsultationModel;
 import com.example.serenityhealth.models.UserModel;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,14 +66,24 @@ public class AddAppointmentActivity extends AppCompatActivity {
                  Date selectedDate = new Date(year-1900, month, dayOfMonth);
                  ArrayList<TimeSlot> availableTimeSlots=AppointmentDbHelper.getTimeSlotsAvailableByDate(this,selectedDate );
 
+
                  timeSlots.clear();
                  for (int i = 0; i < availableTimeSlots.size(); i++) {
-                     timeSlots.add(availableTimeSlots.get(i).value);
+                     if(!TimeSlot.isPastTime(availableTimeSlots.get(i))){
+                         timeSlots.add(availableTimeSlots.get(i).value);
+                     }
+                 }
+
+                 boolean isToday = Constants.dateFormatter.format(Calendar.getInstance().getTime()).equals(Constants.dateFormatter.format(selectedDate));
+                 int timeNow = Integer.parseInt(new SimpleDateFormat("k").format(Calendar.getInstance().getTime()));
+
+                 if(isToday && timeNow>=17){
+                     timeSlots.clear();
                  }
 
                  adapter.notifyDataSetChanged();
 
-                 if(availableTimeSlots.isEmpty()){
+                 if(timeSlots.isEmpty()){
                      Toast.makeText(this, "Sorry there are no available timeslots for that day.",Toast.LENGTH_LONG ).show();
                  }else{
                      datePicker.setText(Constants.dateFormatter.format(new Date(year-1900, month, dayOfMonth)));
