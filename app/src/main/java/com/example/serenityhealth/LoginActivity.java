@@ -46,4 +46,8 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, RegisterActivity.class));
         });
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

@@ -1,11 +1,14 @@
 package com.example.serenityhealth;
 
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
+
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import com.example.serenityhealth.models.UserModel;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -49,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
         TextView name= (TextView) navHeaderView.findViewById(R.id.user_name);
         TextView weight= (TextView) navHeaderView.findViewById(R.id.user_weight);
         TextView height= (TextView) navHeaderView.findViewById(R.id.user_height);
+        Button logout= (Button) navHeaderView.findViewById(R.id.logout_button);
+
+        logout.setOnClickListener(view->{
+            startActivity(new Intent(this,LoginActivity.class));
+        });
+
 
         Log.e(TAG, name.getText().toString() );
 
