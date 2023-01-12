@@ -41,6 +41,7 @@ public class ConsultationAdapter extends RecyclerView.Adapter<ConsultationAdapte
         holder.proceedButton.setOnClickListener(view -> {
             Intent intent = new Intent(context, ConsultationActivity.class);
             intent.putExtra("theConsultation", consultations.get(position));
+            intent.putExtra("theUser", consultations.get(position).getUser());
             context.startActivity(intent);
         });
     }

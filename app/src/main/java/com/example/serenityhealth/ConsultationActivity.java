@@ -2,12 +2,14 @@ package com.example.serenityhealth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ public class ConsultationActivity extends AppCompatActivity {
         ConsultationModel consultation = (ConsultationModel) getIntent().getSerializableExtra("theConsultation");
         UserModel user = (UserModel) getIntent().getSerializableExtra("theUser");
 
+        ImageView image = findViewById(R.id.patient_image);
         TextView name = findViewById(R.id.patient_name);
         TextView weight = findViewById(R.id.patient_weight);
         TextView height = findViewById(R.id.patient_height);
@@ -54,6 +57,7 @@ public class ConsultationActivity extends AppCompatActivity {
 
         Button saveConsultationButton = findViewById(R.id.save_consultation);
 
+        image.setImageURI(Uri.parse(user.getImageUri()));
         name.setText(user.getFullName());
         weight.setText(user.getWeightKg());
         height.setText(user.getHeightCm());
