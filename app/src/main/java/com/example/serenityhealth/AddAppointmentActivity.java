@@ -105,7 +105,7 @@ public class AddAppointmentActivity extends AppCompatActivity {
 //            Log.e(TAG, TimeSlot.toTimeSlot(pickTimeSlot.getSelectedItem().toString()).value);
 //            return;
 
-            if(datePicker.getText().toString().isEmpty()|| pickTimeSlot.getSelectedItem().toString().isEmpty()){
+            if(datePicker.getText().toString().equalsIgnoreCase("pick date")|| pickTimeSlot.getSelectedItem().toString().isEmpty()){
                 Toast.makeText(this,"Please fill all the fields.",Toast.LENGTH_SHORT).show();
                 return;
             }
